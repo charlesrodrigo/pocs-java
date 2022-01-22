@@ -3,6 +3,7 @@ package com.app.archunitexamples.architecture;
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.domain.JavaPackage;
+import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.library.metrics.*;
@@ -10,14 +11,14 @@ import com.tngtech.archunit.library.metrics.*;
 import java.util.Set;
 
 
-@AnalyzeClasses(packages = "com.app")
+@AnalyzeClasses(packages = "com.app", importOptions = ImportOption.DoNotIncludeTests.class)
 public class MetricsTest {
 
     private static String PACKAGE = "com.app";
     private static String SUBPACKAGE = PACKAGE + ".archunitexamples";
 
     @ArchTest
-    public void no_accesses_to_upper_package(JavaClasses classes) {
+    public void metrics(JavaClasses classes) {
         Set<JavaPackage> packages = classes.getPackage(PACKAGE).getSubpackages();
 
         // These components can also be created in a package agnostic way, compare MetricsComponents.from(..)

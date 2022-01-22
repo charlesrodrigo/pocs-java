@@ -1,5 +1,6 @@
 package com.app.archunitexamples.architecture;
 
+import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchIgnore;
 import com.tngtech.archunit.junit.ArchTest;
@@ -9,7 +10,7 @@ import static com.app.archunitexamples.architecture.ArchitectureUtilTest.*;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 import static com.tngtech.archunit.library.DependencyRules.NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
 
-@AnalyzeClasses(packages = "com.app.archunitexamples")
+@AnalyzeClasses(packages = "com.app.archunitexamples", importOptions = ImportOption.DoNotIncludeTests.class)
 public class LayeredArchitectureTest {
 
     @ArchTest

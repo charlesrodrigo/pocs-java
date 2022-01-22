@@ -1,6 +1,7 @@
 package com.app.archunitexamples.architecture;
 
 
+import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
-@AnalyzeClasses(packages = "com.app.archunitexamples")
+@AnalyzeClasses(packages = "com.app.archunitexamples", importOptions = ImportOption.DoNotIncludeTests.class)
 public class ServiceRulesTest {
 
     @ArchTest
@@ -34,5 +35,11 @@ public class ServiceRulesTest {
             classes()
                     .that().haveSimpleNameEndingWith("ServiceImpl")
                     .should().resideInAPackage("..impl..");
+
+    @ArchTest
+    static ArchRule classes_that_have_service_annotation_should_not_be_public_access =
+            classes()
+                    .that().areAnnotatedWith(Service.class)
+                    .should().notBePublic();
 
 }
