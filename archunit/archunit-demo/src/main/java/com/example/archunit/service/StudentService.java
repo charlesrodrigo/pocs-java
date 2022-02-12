@@ -1,13 +1,13 @@
 package com.example.archunit.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.example.archunit.model.Student;
 
+import java.util.Optional;
+
 public interface StudentService {
-	
-	Optional<Student> getStudentById(Long id);
-	Student saveStudent(Student student);
+
+    Optional<Student> findById(Long id);
+
+    Student save(Student student);
 
 }

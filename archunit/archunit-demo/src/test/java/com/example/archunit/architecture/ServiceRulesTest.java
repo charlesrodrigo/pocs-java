@@ -36,6 +36,7 @@ public class ServiceRulesTest {
                     .should().resideInAPackage("..impl..");
 
 
+    // other tests, alter code for error
     @ArchIgnore
     @ArchTest
     static ArchRule classes_that_have_service_end_name_should_have_service_annotation =
