@@ -25,10 +25,10 @@ public class PersonWriter implements ItemWriter<List<Person>> {
 
   @Override
   public void write(final List<? extends List<Person>> personList) {
-    personList.forEach(this::writeSellers);
+    personList.forEach(this::writePerson);
   }
 
-  private void writeSellers(List<Person> persons) {
+  private void writePerson(List<Person> persons) {
     persons.forEach(this::executePersonProduct);
   }
 
