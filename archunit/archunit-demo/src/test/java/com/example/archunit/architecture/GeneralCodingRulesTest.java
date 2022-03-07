@@ -7,14 +7,11 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.GeneralCodingRules;
 import org.slf4j.Logger;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
-
-
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
@@ -22,8 +19,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
 
 @AnalyzeClasses(packages = "com.example.archunit", importOptions = ImportOption.DoNotIncludeTests.class)
 public class GeneralCodingRulesTest {
-
-    // system.out ou system.err ou
+    
     @ArchIgnore
     @ArchTest
     static final ArchRule no_classes_should_use_system_out_system_error = GeneralCodingRules.NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
@@ -50,11 +46,10 @@ public class GeneralCodingRulesTest {
 
     @ArchIgnore
     @ArchTest
-    static final ArchRule singleton_components_should_only_have_final_fields =
+    static final ArchRule classes_that_areaAnnotations_should_have_only_final_fields =
             classes()
                     .that().areAnnotatedWith(Service.class)
                     .or().areAnnotatedWith(Component.class)
-                    .and().areNotAnnotatedWith(ConfigurationProperties.class)
                     .or().areAnnotatedWith(Controller.class)
                     .or().areAnnotatedWith(RestController.class)
                     .or().areAnnotatedWith(Repository.class)

@@ -10,9 +10,6 @@ import java.util.Optional;
 public class ServiceStudentImpl implements StudentService {
 
     private final StudentRepository studentRepository;
-    //private final Logger log = LoggerFactory.getLogger(ServiceStudentImpl.class); //org.slf4j
-    //private static Logger log = Logger.getLogger("StudentServiceImpl"); //java.util
-
 
     public ServiceStudentImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -25,7 +22,6 @@ public class ServiceStudentImpl implements StudentService {
 
     @Override
     public Optional<Student> findById(Long id) {
-        //log.info("Find Student by id");
         System.out.println("Find Student by id");
         return studentRepository.findById(id);
     }

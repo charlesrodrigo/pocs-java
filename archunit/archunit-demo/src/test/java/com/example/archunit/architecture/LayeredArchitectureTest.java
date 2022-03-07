@@ -15,8 +15,8 @@ public class LayeredArchitectureTest {
     private static final String CONTROLLER_LAYER = "com.example.archunit.controller..";
     private static final String SERVICE_LAYER = "com.example.archunit.service..";
     private static final String REPOSITORY_LAYER = "com.example.archunit.repository..";
-    private static final String MODEL_LAYER = "com.example.archunit.model..";;
-
+    private static final String MODEL_LAYER = "com.example.archunit.model..";
+    
     @ArchIgnore
     @ArchTest
     static final ArchRule layer_dependencies_are_respected = layeredArchitecture()

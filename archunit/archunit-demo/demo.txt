@@ -1,0 +1,110 @@
+APRESENTACAO
+    ** Determinamos que classes do pacote controller não pode importar classes do pacote repository
+ 1 - LayeredArchitectureTest @AnalyzeClasses(packages = "com.example.archunit", importOptions = ImportOption.DoNotIncludeTests.class)
+
+    ** Regras gerais de codificação
+ 2 - GeneralCodingRulesTest @AnalyzeClasses(packages = "com.example.archunit", importOptions = ImportOption.DoNotIncludeTests.class)
+
+	** NAO PODE USAR SYSTEM_OUT_SYSTEM_ERROR OU PRINT_STACK_TRACE
+    @ArchTest
+    static final ArchRule no_classes_should_use_system_out_system_error = GeneralCodingRules.NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
+		//ALTERAR PARA, COM IMPORT DO JAVA UTIL
+			private Logger log = Logger.getLogger("StudentServiceImpl"); //java.util
+
+		//ALTERAR O SYSTEM.OUT PARA
+			log.info("Find Student by id");
+
+
+	** NÃO PODE USAR A CLASSES DE LOG DO JAVA UTIL
+	@ArchTest
+    static final ArchRule no_classes_should_use_java_util_logging = GeneralCodingRules.NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
+		//REMOVER O LOGGER DO JAVA UTIL E COLOCAR O DO SLF4J
+		private Logger log = LoggerFactory.getLogger(ServiceStudentImpl.class); //org.slf4j
+
+
+	** CLASSES DE LOGGER DEVE SER PRIVADO STATICA E FINAL
+	@ArchTest
+    private final ArchRule loggers_should_be_private_static_final =
+            fields().that().haveRawType(Logger.class)
+                    .should().bePrivate()
+                    .andShould().beStatic()
+                    .andShould().beFinal();
+
+		// inserir o static no atributo ex
+			private static final
+
+
+
+	** NÃO PODE USAR A CLASSES EXCEPTIONS GENERICAS
+	@ArchTest
+    static final ArchRule no_classes_should_throw_generic_exceptions = GeneralCodingRules.NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
+		//REMOVER O RUNTIME E COLOCAR O DO SPRING
+		new ResponseStatusException(HttpStatus.NOT_FOUND)
+
+
+	** NÃO PODE USAR INJEÇÃO DE DEPENDENCIA VIA ATRIBUTO _
+	@ArchTest
+    static final ArchRule no_classes_should_field_injection = GeneralCodingRules.NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
+		// APENAS COLOCAR A INJEÇÃO NO CONTRUTOR
+
+
+
+	** CLASSES QUE TEM DETERMINADAS ANOTAÇÕES, devem ter apenas atributos final
+    @ArchTest
+    static final ArchRule classes_that_areaAnnotations_should_have_only_final_fields =
+            classes()
+                    .that().areAnnotatedWith(Service.class)
+                    .or().areAnnotatedWith(Component.class)
+                    .or().areAnnotatedWith(Controller.class)
+                    .or().areAnnotatedWith(RestController.class)
+                    .should().haveOnlyFinalFields();
+
+		//INSERIR O FINAL
+		private final StudentService studentService;
+
+
+Regras de serviços
+3 - ServiceRulesTest  @AnalyzeClasses(packages = "com.example.archunit", importOptions = ImportOption.DoNotIncludeTests.class)
+
+	** determinamos que dentro do pacote service so pode ter interfaces
+	@ArchTest
+    static final ArchRule classes_that_resideInAPackage_service_should_beInterfaces =
+            classes().that().resideInAPackage("..service").should().beInterfaces();
+
+			//MOVER A CLASSE ServiceStudentImpl PARA O PACOTE IMPL
+
+
+	** determinamos que no pacote impl não pode ter interfaces
+	@ArchTest
+    static final ArchRule noClasses_that_resideInAPackage_impl_should_beInterfaces =
+            noClasses().that().resideInAPackage("..impl..").should().beInterfaces();
+
+		 // mover a classe SchoolService para o pacote service
+
+
+	** determinamos que classes que estao no pacote impl deve estar anotada com @service
+	@ArchTest
+    static ArchRule classes_that_resideInAPackage_impl_should_beAnnotatedWith_Service =
+            classes()
+                    .that().resideInAPackage("..impl..")
+                    .should().beAnnotatedWith(Service.class);
+
+		// ALTERAR A ANOTACAO PARA SERVICE
+
+
+	** determinamos que classes que estao anotadas com @service devem terminar com serviceImpl
+	@ArchTest
+    static ArchRule classes_that_areAnnotatedWith_service_should_haveSimpleNameEndingWith_ServiceImpl =
+            classes()
+                    .that().areAnnotatedWith(Service.class)
+                    .should().haveSimpleNameEndingWith("ServiceImpl");
+
+		// ALTERA NO NOME DA CLASSE
+
+
+	** determinamos que classes que estao anotadas com @service não podem ser publicas
+	@ArchTest
+    static ArchRule classes_that_areAnnotatedWith_Service_should_notBePublic =
+            classes()
+                    .that().areAnnotatedWith(Service.class)
+                    .should().notBePublic();

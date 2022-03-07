@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
 
     @Autowired
-    StudentService studentService;
+    private StudentService studentService;
 
     @Autowired
-    StudentRepository studentRepository;
+    private StudentRepository studentRepository;
 
     @PostMapping("/student")
     public Student saveStudent(@RequestBody Student student) {
@@ -22,7 +22,6 @@ public class StudentController {
 
     @GetMapping("/student/{id}")
     public Student getStudent(@PathVariable("id") Long id) {
-        //new ResponseStatusException(HttpStatus.NOT_FOUND)
         return studentRepository.findById(id).orElseThrow(() -> new RuntimeException());
     }
 
